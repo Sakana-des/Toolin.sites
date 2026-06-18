@@ -55,7 +55,7 @@ export default function AdPlaceholder({
   const [isClient, setIsClient] = useState(false);
   
   const adsenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
-  const adsterraEnabled = process.env.NEXT_PUBLIC_ADSTERRA_ENABLED === "true";
+  const adsterraEnabled = process.env.NEXT_PUBLIC_ADSTERRA_ENABLED !== "false";
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
