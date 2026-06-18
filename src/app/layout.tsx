@@ -47,7 +47,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const gaId = process.env.NEXT_PUBLIC_GA_ID;
-  const adsenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
 
   return (
     <html
@@ -56,15 +55,16 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        {/* Google AdSense Account Verification Meta */}
+        <meta name="google-adsense-account" content="ca-pub-7937601712495858" />
+
         {/* Google AdSense Script */}
-        {adsenseClient && (
-          <Script
-            async
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}`}
-            crossOrigin="anonymous"
-            strategy="afterInteractive"
-          />
-        )}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7937601712495858"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
         
         {/* Google Analytics Script */}
         {gaId && (
