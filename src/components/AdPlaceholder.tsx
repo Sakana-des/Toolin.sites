@@ -9,6 +9,43 @@ interface AdPlaceholderProps {
   slot?: string; // Specific slot ID for adsense
 }
 
+interface AdsterraBannerProps {
+  placementId: string;
+  width: number;
+  height: number;
+  className?: string;
+}
+
+function AdsterraBanner({ placementId, width, height, className = "" }: AdsterraBannerProps) {
+  return (
+    <div
+      className={`my-4 flex justify-center items-center ${className}`}
+      style={{ minHeight: `${height}px` }}
+      ref={(el) => {
+        if (el && !el.querySelector("iframe") && !el.querySelector("script")) {
+          const script = document.createElement("script");
+          script.type = "text/javascript";
+          script.src = `https://www.highperformanceformat.com/${placementId}/invoke.js`;
+
+          const configScript = document.createElement("script");
+          configScript.type = "text/javascript";
+          configScript.innerHTML = `
+            atOptions = {
+              'key' : '${placementId}',
+              'format' : 'iframe',
+              'height' : ${height},
+              'width' : ${width},
+              'params' : {}
+            };
+          `;
+          el.appendChild(configScript);
+          el.appendChild(script);
+        }
+      }}
+    />
+  );
+}
+
 export default function AdPlaceholder({
   id,
   type,
@@ -21,18 +58,20 @@ export default function AdPlaceholder({
   const adsterraEnabled = process.env.NEXT_PUBLIC_ADSTERRA_ENABLED === "true";
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsClient(true);
-    
-    // In production, when ads are active, we let AdSense script handle its DOM
-    if (typeof window !== "undefined" && adsenseClient && type === "adsense") {
+  }, []);
+
+  useEffect(() => {
+    if (isClient && typeof window !== "undefined" && adsenseClient && type === "adsense") {
       try {
-        // @ts-ignore
+        // @ts-expect-error window.adsbygoogle is injected by external script
         (window.adsbygoogle = window.adsbygoogle || []).push({});
       } catch (e) {
         console.warn("AdSense script load warning:", e);
       }
     }
-  }, [adsenseClient, type]);
+  }, [isClient, adsenseClient, type]);
 
   const sizeClasses = {
     horizontal: "h-[90px] w-full max-w-[728px] mx-auto",
@@ -97,36 +136,59 @@ export default function AdPlaceholder({
   }
 
   if (type === "adsterra") {
-    // For Adsterra, native ads are usually placed via a script element.
-    // We can inject the Adsterra script inside a target container
-    return (
-      <div 
-        id={`adsterra-placement-${id}`} 
-        className={`my-4 flex justify-center items-center ${sizeClasses[size]}`}
-        ref={(el) => {
-          if (el && !el.querySelector("script")) {
-            const script = document.createElement("script");
-            script.type = "text/javascript";
-            // Check if there is an Adsterra code key mapping
-            script.src = `//www.highperformanceformat.com/${id}/invoke.js`;
-            
-            const configScript = document.createElement("script");
-            configScript.type = "text/javascript";
-            configScript.innerHTML = `
-              atOptions = {
-                'key' : '${id}',
-                'format' : 'iframe',
-                'height' : ${size === "horizontal" ? 90 : size === "rectangle" ? 250 : 60},
-                'width' : ${size === "horizontal" ? 728 : size === "rectangle" ? 300 : 468},
-                'params' : {}
-              };
-            `;
-            el.appendChild(configScript);
-            el.appendChild(script);
-          }
-        }}
-      />
-    );
+    if (size === "responsive") {
+      // Native Banner
+      const containerId = "container-48c6781d48c9c9bd34bbef06ee262a26";
+      const scriptSrc = "https://pl29784972.effectivecpmnetwork.com/48c6781d48c9c9bd34bbef06ee262a26/invoke.js";
+
+      return (
+        <div
+          id={containerId}
+          className="my-4 w-full flex justify-center items-center min-h-[100px]"
+          ref={(el) => {
+            if (el && !el.querySelector(`script[src="${scriptSrc}"]`)) {
+              const script = document.createElement("script");
+              script.type = "text/javascript";
+              script.async = true;
+              script.src = scriptSrc;
+              script.setAttribute("data-cfasync", "false");
+              el.appendChild(script);
+            }
+          }}
+        />
+      );
+    }
+
+    if (size === "horizontal") {
+      return (
+        <div className="w-full flex flex-col items-center justify-center">
+          {/* Desktop: 728x90 */}
+          <AdsterraBanner
+            placementId="8b030df18945d25fc20ad83de286f5ba"
+            width={728}
+            height={90}
+            className="hidden md:flex"
+          />
+          {/* Mobile: 320x50 */}
+          <AdsterraBanner
+            placementId="60e89853e287d8c27b0106ee930cc13f"
+            width={320}
+            height={50}
+            className="flex md:hidden"
+          />
+        </div>
+      );
+    }
+
+    if (size === "rectangle") {
+      return (
+        <AdsterraBanner
+          placementId="f9ee754788392bdbaa1d29404703f31a"
+          width={300}
+          height={250}
+        />
+      );
+    }
   }
 
   return null;
