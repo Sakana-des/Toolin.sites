@@ -57,12 +57,11 @@ export default function ToolShell({
         </p>
       </div>
 
-      {/* Google AdSense Top */}
+      {/* Adsterra Top Banner */}
       <AdPlaceholder
-        id={`${tool.id}-top-adsense`}
-        type="adsense"
+        id={`${tool.id}-top-adsterra`}
+        type="adsterra"
         size="horizontal"
-        slot="1234567890"
       />
 
       {/* Main Interactive Tool Container */}

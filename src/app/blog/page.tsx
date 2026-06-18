@@ -29,8 +29,8 @@ export default function BlogListPage() {
         </p>
       </div>
 
-      {/* Adsense Slot */}
-      <AdPlaceholder id="blog-list-top-ad" type="adsense" size="horizontal" slot="1234567890" />
+      {/* Adsterra Top Banner */}
+      <AdPlaceholder id="blog-list-top-adsterra" type="adsterra" size="horizontal" />
 
       {/* Blog Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

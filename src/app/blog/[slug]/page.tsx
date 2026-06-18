@@ -2,7 +2,7 @@ import React from "react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Calendar, Clock, User, ArrowLeft, Cpu } from "lucide-react";
+import { Calendar, Clock, User, ArrowLeft } from "lucide-react";
 import { BLOG_POSTS } from "@/data/blog";
 import { TOOLS } from "@/data/tools";
 import AdPlaceholder from "@/components/AdPlaceholder";
@@ -130,8 +130,8 @@ export default async function BlogPostPage({ params }: PageProps) {
         </div>
       </header>
 
-      {/* Top Banner Slot */}
-      <AdPlaceholder id={`blog-top-${post.slug}`} type="adsense" size="horizontal" slot="1234567890" />
+      {/* Adsterra Top Banner */}
+      <AdPlaceholder id={`blog-top-${post.slug}`} type="adsterra" size="horizontal" />
 
       {/* Article Body HTML Content */}
       <div 

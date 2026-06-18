@@ -2,8 +2,8 @@
 
 import React, { useState, useMemo } from "react";
 import Link from "next/link";
-import { Search, ChevronDown, Check, ArrowRight, Star } from "lucide-react";
-import { TOOLS, CATEGORIES, Tool } from "@/data/tools";
+import { Search, ChevronDown, ArrowRight, Star } from "lucide-react";
+import { TOOLS, CATEGORIES } from "@/data/tools";
 import Icon from "@/components/Icon";
 import AdPlaceholder from "@/components/AdPlaceholder";
 import JsonLd, { generateFAQSchema } from "@/components/JsonLd";
@@ -94,8 +94,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Google AdSense Top */}
-      <AdPlaceholder id="homepage-top-adsense" type="adsense" size="horizontal" slot="1234567890" />
+      {/* Adsterra Top Banner */}
+      <AdPlaceholder id="homepage-top-adsterra" type="adsterra" size="horizontal" />
 
       {/* Categories & Filter Grid */}
       <section className="space-y-6">
