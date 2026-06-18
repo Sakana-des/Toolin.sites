@@ -94,8 +94,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Adsterra Top Banner */}
-      <AdPlaceholder id="homepage-top-adsterra" type="adsterra" size="horizontal" />
+      {/* Google AdSense Top */}
+      <AdPlaceholder id="homepage-top-adsense" type="adsense" size="horizontal" slot="1234567890" />
 
       {/* Categories & Filter Grid */}
       <section className="space-y-6">

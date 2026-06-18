@@ -130,8 +130,8 @@ export default async function BlogPostPage({ params }: PageProps) {
         </div>
       </header>
 
-      {/* Adsterra Top Banner */}
-      <AdPlaceholder id={`blog-top-${post.slug}`} type="adsterra" size="horizontal" />
+      {/* Top Banner Slot */}
+      <AdPlaceholder id={`blog-top-${post.slug}`} type="adsense" size="horizontal" slot="1234567890" />
 
       {/* Article Body HTML Content */}
       <div 
